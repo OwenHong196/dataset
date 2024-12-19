@@ -25,7 +25,7 @@
                 numList.push(num)
             });
         }
-        function makeChart(){
+        async function makeChart(){
             const ctx = document.getElementById('myChart');
             new Chart(ctx, {
               type: 'line',
@@ -57,8 +57,11 @@
               }
             });
         }
-        getData()
-        makeChart()
+        getData().then(
+            response => {
+                makeChart()
+            }
+        )
     </script>
 </body>
 </html>
