@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <canvas id="myChart"></canvas>
+      </div>
+    <script>
+        let dbnList = [];
+        let numList = [];
+        async function getData() {
+            const response = await fetch("2012SAT.csv");
+            const data = await response.text();
+            const rows = data.split("\n").slice(2);
+            rows.forEach((elem) => {
+                const row = elem.split(",");
+                const dbn = row[0];
+                const num = row[2];
+                dbnList.push(dbn)
+                numList.push(num)
+            });
+        }
+        function makeChart(){
+            const ctx = document.getElementById('myChart');
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: dbnList,
+                datasets: [{
+                  label: '2012 SAT takers',
+                  data: numList,
+                  borderWidth: 1,
+                  borderColor: '#FFB1C1',
+                  backgroundColor: '#FFB1C1'
+                }],
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 24
+                            }
+                        }
+                    }
+                }
+              }
+            });
+        }
+        getData()
+        makeChart()
+    </script>
+</body>
+</html>
